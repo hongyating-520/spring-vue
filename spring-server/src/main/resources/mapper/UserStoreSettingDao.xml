@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.UserStoreSettingDao">
+  <resultMap id="BaseResultMap" type="com.test.dao.UserStoreSetting">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="store_id" jdbcType="BIGINT" property="storeId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="auto_pull_all_product" jdbcType="BOOLEAN" property="autoPullAllProduct" />
+    <result column="auto_pull_all_order" jdbcType="BOOLEAN" property="autoPullAllOrder" />
+    <result column="is_refresh_token" jdbcType="BOOLEAN" property="isRefreshToken" />
+    <result column="is_create_webhook" jdbcType="BOOLEAN" property="isCreateWebhook" />
+    <result column="delivery_settings" jdbcType="TINYINT" property="deliverySettings" />
+    <result column="lg_sort" jdbcType="VARCHAR" property="lgSort"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, store_id, user_id, auto_pull_all_product, auto_pull_all_order, is_refresh_token,
+    is_create_webhook, delivery_settings, lg_sort
+  </sql>
+  <select id="selectByExample"  resultMap="BaseResultMap">
+    select
+
+    <include refid="Base_Column_List" />
+    from user_store_setting
+
+  </select>
+
+  <insert id="insert" parameterType="com.test.dao.UserStoreSetting">
+    insert into user_store_setting (id, store_id, user_id,
+      auto_pull_all_product, auto_pull_all_order, is_refresh_token,
+      is_create_webhook, delivery_settings, lg_sort
+      )
+    values (#{id,jdbcType=BIGINT}, #{storeId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+      #{autoPullAllProduct,jdbcType=BOOLEAN}, #{autoPullAllOrder,jdbcType=BOOLEAN}, #{isRefreshToken,jdbcType=BOOLEAN},
+      #{isCreateWebhook,jdbcType=BOOLEAN}, #{deliverySettings,jdbcType=TINYINT}, #{lgSort}
+      )
+  </insert>
+
+</mapper>
